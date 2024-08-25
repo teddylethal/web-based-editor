@@ -1,6 +1,5 @@
+import { AnimatePresence } from 'framer-motion'
 import { ReactNode } from 'react'
-import styles from './mainlayout.module.scss'
-import SideBar from 'src/components/common/SideBar'
 
 interface Props {
   children: ReactNode
@@ -8,17 +7,16 @@ interface Props {
 
 export default function MainLayout({ children }: Props) {
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.header}>
-        <img src='/images/Woodong_logo.png' alt='woodong_logo' />
+    <div
+      className='flex h-full min-h-full shrink-0 flex-col justify-between bg-lightBg text-darkText duration-200 dark:bg-darkBg dark:text-lightText'
+      style={{
+        minHeight: 'inherit'
+      }}
+    >
+      <div className='fixed z-20 w-full'>
+        <AnimatePresence>sdfkjhaskdjfhfakjs</AnimatePresence>
       </div>
-      <div className={styles.body}>
-        <div className={styles.sidebar}>
-          <SideBar />
-        </div>
-
-        <div className={styles.content}>{children}</div>
-      </div>
+      <div className='w-full pt-10 tablet:pt-12 desktop:pt-16'>{children}</div>
     </div>
   )
 }

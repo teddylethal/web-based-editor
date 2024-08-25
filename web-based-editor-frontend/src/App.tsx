@@ -1,30 +1,72 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import 'react-toastify/dist/ReactToastify.css'
+import { createContext, useContext, useEffect } from 'react'
+import { LocalStorageEventTarget } from './utils/auth'
+import { AppContext, AppProvider } from './contexts/app.context'
+import classNames from 'classnames'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import ScrollToTop from './ScrollToTop'
+import useRouteElements from './hooks/useRouteElements'
+import { ToastContainer } from 'react-toastify'
+import ErrorBoundary from './components/common/ErrorBoundary'
+import LoadingPage from './components/common/LoadingPage'
 
-function App() {
-  const [count, setCount] = useState(0)
+export type ThemeContextType = 'light' | 'dark'
+export const ThemeContext = createContext({
+  theme: 'dark',
+  toggleTheme: () => {}
+})
+
+function AppInner() {
+  const { handleLogout, loadingPage, theme } = useContext(AppContext)
+
+  const routeElements = useRouteElements()
+
+  useEffect(() => {
+    const resetFunction = () => {
+      handleLogout()
+    }
+    LocalStorageEventTarget.addEventListener('clearLS', resetFunction)
+    return () => {
+      LocalStorageEventTarget.removeEventListener('clearLS', resetFunction)
+    }
+  }, [handleLogout])
 
   return (
-    <>
-      <div className='bg-red-400'>
-        <a href='https://vitejs.dev' target='_blank'>
-          <img src={viteLogo} className='logo' alt='Vite logo' />
-        </a>
-        <a href='https://react.dev' target='_blank'>
-          <img src={reactLogo} className='logo react' alt='React logo' />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className='card'>
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className='read-the-docs'>Click on the Vite and React logos to learn more</p>
-    </>
+    <div
+      className={classNames('', theme === 'dark' ? 'dark' : 'light')}
+      style={{
+        minHeight: 'inherit'
+      }}
+    >
+      {routeElements}
+      <ToastContainer
+        position='top-right'
+        autoClose={3000}
+        limit={3}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme={theme === 'dark' ? 'dark' : 'light'}
+      />
+      {loadingPage && <LoadingPage />}
+    </div>
+  )
+}
+
+function App() {
+  return (
+    <ScrollToTop>
+      <AppProvider>
+        <ErrorBoundary>
+          <AppInner />
+        </ErrorBoundary>
+      </AppProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </ScrollToTop>
   )
 }
 
