@@ -9,6 +9,7 @@ import useRouteElements from './hooks/useRouteElements'
 import { ToastContainer } from 'react-toastify'
 import ErrorBoundary from './components/common/ErrorBoundary'
 import LoadingPage from './components/common/LoadingPage'
+import { EditorProvider } from './contexts/editor.context'
 
 export type ThemeContextType = 'light' | 'dark'
 export const ThemeContext = createContext({
@@ -33,7 +34,7 @@ function AppInner() {
 
   return (
     <div
-      className={classNames('', theme === 'dark' ? 'dark' : 'light')}
+      className={classNames('w-full', theme === 'dark' ? 'dark' : 'light')}
       style={{
         minHeight: 'inherit'
       }}
@@ -61,9 +62,11 @@ function App() {
   return (
     <ScrollToTop>
       <AppProvider>
-        <ErrorBoundary>
-          <AppInner />
-        </ErrorBoundary>
+        <EditorProvider>
+          <ErrorBoundary>
+            <AppInner />
+          </ErrorBoundary>
+        </EditorProvider>
       </AppProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </ScrollToTop>

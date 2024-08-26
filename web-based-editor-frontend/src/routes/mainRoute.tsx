@@ -3,7 +3,7 @@ import { Outlet, RouteObject } from 'react-router-dom'
 import LoadingWithEmptyContent from 'src/components/common/LoadingWithEmptyContent'
 import mainPath from 'src/constants/path'
 import MainLayout from 'src/layouts/MainLayout'
-import Workspace from 'src/pages/Workspace'
+import EditorPage from 'src/pages/EditorPage'
 
 function MainRouteWrapper() {
   return (
@@ -18,7 +18,7 @@ function MainRouteWrapper() {
 const MainRoute: RouteObject = {
   path: '',
   element: <MainRouteWrapper />,
-  children: [{ path: mainPath.myWorkspace, element: <Workspace /> }]
+  children: [{ path: mainPath.myWorkspace, element: <EditorPage /> }]
 }
 
 export default MainRoute
