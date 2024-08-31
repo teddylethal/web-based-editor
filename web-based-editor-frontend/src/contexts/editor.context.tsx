@@ -1,37 +1,39 @@
 import { useState, createContext } from 'react'
-
-export interface EditorFile {
-  name: string
-  language: string
-  value: string
-}
+import { EditorFile } from 'src/types/folder.type'
 
 const defaultFile: EditorFile = {
   name: 'script.js',
   language: 'javascript',
-  value: 'someJSCodeExample'
+  content: 'someJSCodeExample'
 }
 
 interface EditorContextInterface {
-  fileName: EditorFile
-  setFileName: React.Dispatch<React.SetStateAction<EditorFile>>
+  currentFile: EditorFile
+  setCurrentFile: React.Dispatch<React.SetStateAction<EditorFile>>
+  currenFolderNames: string[]
+  setCurrentFolderNames: React.Dispatch<React.SetStateAction<string[]>>
 }
 
 const initialEditorContext: EditorContextInterface = {
-  fileName: defaultFile,
-  setFileName: () => null
+  currentFile: defaultFile,
+  setCurrentFile: () => null,
+  currenFolderNames: [],
+  setCurrentFolderNames: () => null
 }
 
 export const EditorContext = createContext<EditorContextInterface>(initialEditorContext)
 
 export const EditorProvider = ({ children }: { children: React.ReactNode }) => {
-  const [fileName, setFileName] = useState<EditorFile>(defaultFile)
+  const [currentFile, setCurrentFile] = useState<EditorFile>(initialEditorContext.currentFile)
+  const [currenFolderNames, setCurrentFolderNames] = useState<string[]>(initialEditorContext.currenFolderNames)
 
   return (
     <EditorContext.Provider
       value={{
-        fileName,
-        setFileName
+        currentFile,
+        setCurrentFile,
+        currenFolderNames,
+        setCurrentFolderNames
       }}
     >
       {children}

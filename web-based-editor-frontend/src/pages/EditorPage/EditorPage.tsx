@@ -4,7 +4,7 @@ import EditorSidebar from './children/EditorSidebar'
 import { EditorContext } from 'src/contexts/editor.context'
 
 export default function EditorPage() {
-  const { fileName } = useContext(EditorContext)
+  const { currentFile } = useContext(EditorContext)
 
   return (
     <div className='grid grid-cols-12 gap-2'>
@@ -15,9 +15,9 @@ export default function EditorPage() {
         <Editor
           height='90vh'
           theme='vs-dark'
-          path={fileName.name}
-          language={fileName.language}
-          value={fileName.value}
+          path={currentFile.name}
+          language={currentFile.language}
+          value={currentFile.content}
           className='w-full'
         />
       </div>

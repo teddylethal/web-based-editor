@@ -1,33 +1,15 @@
 import React, { useContext } from 'react'
-import { EditorContext, EditorFile } from 'src/contexts/editor.context'
-
-const files: EditorFile[] = [
-  {
-    name: 'script.js',
-    language: 'javascript',
-    value: 'someJSCodeExample'
-  },
-  {
-    name: 'style.css',
-    language: 'css',
-    value: 'someCSSCodeExample'
-  },
-  {
-    name: 'index.html',
-    language: 'html',
-    value: 'someHTMLCodeExample'
-  }
-]
+import { EditorContext } from 'src/contexts/editor.context'
+import { files, folders } from '../data'
+import FolderComponent from 'src/components/common/FolderComponent'
 
 export default function EditorSidebar() {
-  const { setFileName } = useContext(EditorContext)
+  const {} = useContext(EditorContext)
 
   return (
     <div className='flex flex-col'>
-      {files.map((file) => (
-        <button key={file.name} className='' onClick={() => setFileName(file)}>
-          {file.name}
-        </button>
+      {folders.map((folder) => (
+        <FolderComponent key={folder.name} folder={folder} parentNames={[folder.name]} />
       ))}
     </div>
   )
