@@ -1,49 +1,61 @@
 import classNames from 'classnames'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { EditorContext } from 'src/contexts/editor.context'
-import { EditorFile, EditorFolder } from 'src/types/folder.type'
+import useClickOutside from 'src/hooks/useClickOutside'
+import { EditorFile, ExtendedEditorFolder } from 'src/types/folder.type'
 
 interface Props {
-  parentNames: string[]
-  folder: EditorFolder
+  folder: ExtendedEditorFolder
 }
 
-export default function FolderComponent({ parentNames, folder }: Props) {
-  const { setCurrentFile, currentFile, currenFolderNames, setCurrentFolderNames } = useContext(EditorContext)
+export default function FolderComponent({ folder }: Props) {
+  const { setCurrentFile, currentFile, currenLocation, setCurrentLocation } = useContext(EditorContext)
 
   const [extending, setExtending] = useState(false)
+  const [isAdding, setIsAdding] = useState(false)
+  const { ref, visible, setVisible } = useClickOutside(folder.isFocus)
 
-  const handleOpenFiles = (file: EditorFile) => () => {
-    setCurrentFolderNames([...parentNames])
-    setCurrentFile(file)
+  useEffect(() => {
+    setIsAdding(folder.isFocus)
+    if (folder.isFocus) {
+      setVisible(true)
+    }
+  }, [folder])
+
+  const handleClickFolder = () => {
+    setCurrentLocation([...folder.location])
+    setExtending(!extending)
+    console.log(currenLocation)
   }
 
+  const handleOpenFiles = (file: EditorFile) => () => {
+    setCurrentLocation([...folder.location])
+    setCurrentFile(file)
+  }
+  // if (folder.name == 'folder 2') {
+  //   console.log(folder.isFocus)
+  //   console.log(isAdding)
+  // }
   return (
     <div className=''>
-      <button
-        onClick={() => {
-          setExtending(!extending)
-        }}
-        className='px-4 py-1'
-      >
+      <button onClick={handleClickFolder} className='px-4 py-1'>
         {folder.name}
       </button>
       {extending && (
         <div className='flex flex-col items-start'>
-          {folder.files.map((file) => {
-            let isActive = file.name == currentFile.name
+          {isAdding && visible && (
+            <div ref={ref} className=''>
+              {/*  eslint-disable-next-line jsx-a11y/no-autofocus */}
+              <input name='title' placeholder='New file' className='ml-8 px-0.5 border ' autoFocus={true} />
+            </div>
+          )}
 
-            if (parentNames.length != currenFolderNames.length) {
-              isActive = false
-            } else {
-              for (let index = 0; index < parentNames.length; index++) {
-                const ele = parentNames[index]
-                if (ele != currenFolderNames[index]) {
-                  isActive = false
-                  break
-                }
-              }
-            }
+          {folder.files.map((file) => {
+            const loc = folder.location
+            const isActive =
+              file.name == currentFile.name &&
+              loc.length == currenLocation.length &&
+              loc.every((ele, index) => ele === currenLocation[index])
 
             return (
               <button

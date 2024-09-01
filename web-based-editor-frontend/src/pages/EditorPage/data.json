@@ -1,0 +1,61 @@
+[
+  {
+    "name": "folder 1",
+    "location": ["folder 1"],
+    "folders": [],
+    "files": [
+      {
+        "name": "script.js",
+        "location": ["folder 1"],
+        "language": "javascript",
+        "content": "someJSCodeExample"
+      },
+      {
+        "name": "style.css",
+        "location": ["folder 1"],
+        "language": "css",
+        "content": "someCSSCodeExample"
+      },
+      {
+        "name": "index.html",
+        "location": ["folder 1"],
+        "language": "html",
+        "content": "someHTMLCodeExample"
+      }
+    ],
+    "children": 3
+  },
+  {
+    "name": "folder 2",
+    "location": ["folder 2"],
+    "folders": [],
+    "files": [
+      {
+        "name": "script.js",
+        "location": ["folder 2"],
+        "language": "javascript",
+        "content": "someJSCodeExample"
+      },
+      {
+        "name": "style.css",
+        "location": ["folder 2"],
+        "language": "css",
+        "content": "someCSSCodeExample"
+      },
+      {
+        "name": "index.html",
+        "location": ["folder 2"],
+        "language": "html",
+        "content": "someHTMLCodeExample"
+      }
+    ],
+    "children": 3
+  },
+  {
+    "name": "folder 3",
+    "location": ["folder 3"],
+    "folders": [],
+    "files": [],
+    "children": 3
+  }
+]

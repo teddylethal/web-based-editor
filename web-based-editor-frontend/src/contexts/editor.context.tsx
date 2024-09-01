@@ -3,6 +3,7 @@ import { EditorFile } from 'src/types/folder.type'
 
 const defaultFile: EditorFile = {
   name: 'script.js',
+  location: [''],
   language: 'javascript',
   content: 'someJSCodeExample'
 }
@@ -10,30 +11,30 @@ const defaultFile: EditorFile = {
 interface EditorContextInterface {
   currentFile: EditorFile
   setCurrentFile: React.Dispatch<React.SetStateAction<EditorFile>>
-  currenFolderNames: string[]
-  setCurrentFolderNames: React.Dispatch<React.SetStateAction<string[]>>
+  currenLocation: string[]
+  setCurrentLocation: React.Dispatch<React.SetStateAction<string[]>>
 }
 
 const initialEditorContext: EditorContextInterface = {
   currentFile: defaultFile,
   setCurrentFile: () => null,
-  currenFolderNames: [],
-  setCurrentFolderNames: () => null
+  currenLocation: [],
+  setCurrentLocation: () => null
 }
 
 export const EditorContext = createContext<EditorContextInterface>(initialEditorContext)
 
 export const EditorProvider = ({ children }: { children: React.ReactNode }) => {
   const [currentFile, setCurrentFile] = useState<EditorFile>(initialEditorContext.currentFile)
-  const [currenFolderNames, setCurrentFolderNames] = useState<string[]>(initialEditorContext.currenFolderNames)
+  const [currenFolderNames, setCurrentFolderNames] = useState<string[]>(initialEditorContext.currenLocation)
 
   return (
     <EditorContext.Provider
       value={{
         currentFile,
         setCurrentFile,
-        currenFolderNames,
-        setCurrentFolderNames
+        currenLocation: currenFolderNames,
+        setCurrentLocation: setCurrentFolderNames
       }}
     >
       {children}
